@@ -1,0 +1,67 @@
+{% extends "user_base.html" %}
+
+{% block user_content %}
+<div class="container-fluid px-5 content-container">
+    <div class="card shadow-lg p-3 mb-4 bg-white rounded" style="max-width: 500px; margin: auto;">
+        <div class="card-header bg-primary text-white text-center">
+            <h5 class="mb-0">Quiz Scores</h5>
+        </div>
+
+        <div class="card-body">
+            {% if quiz_results %}
+                <table class="table table-sm table-hover text-center">
+                    <thead >
+                        <tr>
+                            <th>Quiz ID</th>
+                            <th>No. of Questions</th>
+                            <th>Date Taken</th>
+                            <th>Score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for result, quiz_id, date_of_quiz, questions in quiz_results %}
+                        <tr data-bs-toggle="modal" data-bs-target="#quizModal{{ quiz_id }}" style="cursor: pointer;">
+                            <td>{{ quiz_id }}</td>
+                            <td>{{ questions }}</td>
+                            <td>{{ result.date_taken.strftime('%d-%m-%Y') }}</td>
+                            <td><strong>{{ result.score }} / {{ questions }}</strong></td>
+                        </tr>
+
+                        <!-- Modal for Quiz Details -->
+                        <div class="modal fade" id="quizModal{{ quiz_id }}" tabindex="-1" aria-labelledby="quizModalLabel{{ quiz_id }}" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header bg-primary text-white">
+                                        <h5 class="modal-title" id="quizModalLabel{{ quiz_id }}">Quiz Details</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p><strong>Quiz ID:</strong> {{ quiz_id }}</p>
+                                        <p><strong>Subject:</strong> {{ result.quiz.chapter.subject.name }}</p>
+                                        <p><strong>Chapter:</strong> {{ result.quiz.chapter.name }}</p>
+                                        <p><strong>No. of Questions:</strong> {{ questions }}</p>
+                                        <p><strong>Date Taken:</strong> {{ result.date_taken.strftime('%d-%m-%Y') }}</p>
+                                        <p><strong>Score:</strong> {{ result.score }} / {{ questions }}</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p class="text-center text-muted">No quizzes taken yet.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+<div class="mt-4 text-center">
+    <a href="{{ url_for('user_dashboard') }}" class="btn btn-danger btn-lg">
+        ← Back to Dashboard
+    </a>
+</div>
+{% endblock %}
