@@ -1,0 +1,72 @@
+{% extends "admin_base.html" %}
+
+{% block admin_content %}
+<div class="container mt-4">
+    <h2>Search Results</h2>
+
+    <div class="d-flex justify-content-end mb-3">
+
+    </div>
+    {% if results %}
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card shadow-sm mb-3">
+
+                <ul class="list-group">
+                    {% for item in results %}
+                    {% if category == "quizzes" %}
+                    <li class="list-group-item">
+                        <strong>Quiz ID:</strong> {{ item.id }}<br>
+                        <strong>Chapter:</strong> {{ item.chapter.name }}<br>
+                        <strong>Subject:</strong> {{ item.chapter.subject.name }}<br>
+                        <strong>Date:</strong> {{ item.date_of_quiz }}
+                    </li>
+
+                    {% elif category == "subjects" %}
+                    <li class="list-group-item">
+                        <strong>Subject:</strong> {{ item.name }}<br>
+                        <strong>Description:</strong> {{ item.description }}<br>
+
+                        {% if item.chapters %}
+                        <strong>Quizzes:</strong>
+                        <ul>
+                            {% for chapter in item.chapters %}
+                            {% for quiz in chapter.quizzes %}
+                            <ul>
+                                <li><b>Quiz ID:</b> {{ quiz.id }}
+                                    <br><b>Date of Quiz</b>: {{ quiz.date_of_quiz }}
+                                </li>
+                            </ul>
+                            {% endfor %}
+                            {% endfor %}
+                        </ul>
+                        {% else %}
+                        <p>No quizzes available for this subject.</p>
+                        {% endif %}
+                    </li>
+
+                    {% elif category == "users" %}
+                    <li class="list-group-item">
+                        <strong>Name:</strong> {{ item.full_name }}<br>
+                        <strong>Email:</strong> {{ item.username }}<br>
+                        <strong>Qualification:</strong> {{ item.qualification }}<br>
+                        <strong>DOB:</strong> {{ item.dob.strftime('%d-%m-%Y') if item.dob else "N/A" }}
+                    </li>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="mt-4">
+        <a href="{{ url_for('admin_dashboard') }}" class="btn btn-danger">
+            ← Back to Admin Dashboard
+        </a>
+    </div>
+</div>
+{% else %}
+<p class="text-danger">No results found.</p>
+{% endif %}
+
+
+{% endblock %}

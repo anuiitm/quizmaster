@@ -1,0 +1,79 @@
+{% extends "admin_base.html" %}
+
+{% block admin_content %}
+<div class="container-fluid px-5 content-container">
+    <h2 class="mb-4 text-center">Summary</h2>
+
+    <div class="row">
+        <!-- Bar Chart -->
+        <div class="col-md-6">
+            <div class="card p-5">
+                <h5 class="text-center">Subject-Wise Top & Lowest Scores</h5>
+                <canvas id="barChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Pie Chart -->
+        <div class="col-md-6">
+            <div class="card p-5">
+                <h5 class="text-center">Subject-Wise User Attempts</h5>
+                <canvas id="pieChart" style="max-width: 800px; max-height: 800px; margin: auto;"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Load Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    // Bar Chart Data
+    const barCtx = document.getElementById('barChart').getContext('2d');
+    const barChart = new Chart(barCtx, {
+        type: 'bar',
+        data: {
+            labels: {{ bar_chart_data['subjects']|tojson }},
+            datasets: [
+                {
+                    label: 'Highest Score',
+                    backgroundColor: 'rgba(54, 162, 235, 0.8)',
+                    data: {{ bar_chart_data['max_scores']|tojson }}
+                },
+                {
+                    label: 'Lowest Score',
+                    backgroundColor: 'rgba(255, 99, 132, 0.8)',
+                    data: {{ bar_chart_data['min_scores']|tojson }}
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { position: 'top' } }
+            
+        }
+    });
+
+    // Pie Chart Data
+    const pieCtx = document.getElementById('pieChart').getContext('2d');
+    const pieChart = new Chart(pieCtx, {
+        type: 'pie',
+        data: {
+            labels: {{ pie_chart_data['subjects']|tojson }},
+            datasets: [{
+                data: {{ pie_chart_data['attempts']|tojson }},
+                backgroundColor: ['#ff6384', '#36a2eb', '#ffce56', '#4bc0c0', '#9966ff']
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { position: 'bottom' } }
+        }
+    });
+</script>
+<div class="text-center mt-4">
+    <a href="{{ url_for('admin_dashboard') }}" class="btn btn-danger">
+        ← Back to Admin Dashboard
+    </a>
+</div>
+
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends "admin_base.html" %}
+
+{% block admin_content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="mb-0">Create New Quiz</h4>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{{ url_for('create_quiz') }}">
+                        {{ form.hidden_tag() }}
+                        <div class="mb-3">
+                            {{ form.chapter.label(class="form-label") }}
+                            {{ form.chapter(class="form-select form-select-sm", style="max-width: 600px;") }}
+                            {% for error in form.chapter.errors %}
+                                <span class="text-danger">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="mb-3">
+                            {{ form.date_of_quiz.label(class="form-label") }}
+                            {{ form.date_of_quiz(class="form-control form-control-sm", style="max-width: 600px;", type="date") }}
+                            {% for error in form.date_of_quiz.errors %}
+                                <span class="text-danger">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="mb-3">
+                            {{ form.time_duration.label(class="form-label") }}
+                            {{ form.time_duration(class="form-control form-control-sm", style="max-width: 600px;", placeholder="HH:MM") }}
+                            {% for error in form.time_duration.errors %}
+                                <span class="text-danger">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            {{ form.submit(class="btn btn-success btn-sm me-md-2") }}
+                            <a href="{{ url_for('quiz_page') }}" class="btn btn-danger btn-sm">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

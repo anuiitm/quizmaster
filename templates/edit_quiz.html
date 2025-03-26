@@ -1,0 +1,28 @@
+{% extends "admin_base.html" %}
+
+{% block admin_content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Edit Quiz</h2>
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <form method="POST">
+                {{ form.hidden_tag() }}
+                <div class="mb-3">
+                    <label for="chapter">Chapter</label>
+                    {{ form.chapter(class="form-control") }}
+                </div>
+                <div class="mb-3">
+                    <label for="date_of_quiz">Date of Quiz</label>
+                    {{ form.date_of_quiz(class="form-control") }}
+                </div>
+                <div class="mb-3">
+                    <label for="time_duration">Time Duration (HH:MM)</label>
+                    {{ form.time_duration(class="form-control") }}
+                </div>
+                <button type="submit" class="btn btn-success">Update Quiz</button>
+                <a href="{{ url_for('quiz_page') }}" class="btn btn-secondary">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

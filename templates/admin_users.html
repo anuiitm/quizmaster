@@ -1,0 +1,43 @@
+{% extends "admin_base.html" %}
+
+{% block admin_content %}
+<div class="container-fluid px-5 content-container">
+    <h2 class="mb-4 text-center">Users</h2>
+    <!-- Users Table -->
+    <div class="card mt-4">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Full Name</th>
+                            <th>Email</th>
+                            <th>Qualification</th>
+                            <th>Date of Birth</th>
+                            <th>Admin</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users %}
+                        <tr>
+                            <td>{{ user.id }}</td>
+                            <td>{{ user.full_name }}</td>
+                            <td>{{ user.username }}</td>
+                            <td>{{ user.qualification }}</td>
+                            <td>{{ user.dob.strftime('%Y-%m-%d') if user.dob else 'No date set' }}</td>
+                            <td>{{ 'Yes' if user.is_admin else 'No' }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- If no users exist -->
+            {% if not users %}
+            <p class="text-center text-muted">No users found.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
