@@ -1,0 +1,44 @@
+/* .detail-box {
+    width: 130px;
+    display: inline-block;
+    border: 1px solid #000;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: #f8f9fa;
+    margin-left: 5px;
+} */
+.quiz-card {
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+.quiz-card:hover {
+    transform: scale(1.05);
+}
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+} 
+.navbar {
+    margin-bottom: 0;
+    padding-top: 1;
+    padding-bottom: 1;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+.content-container {
+    padding-top: 70px; 
+}
+/* Ensure flash messages are visible below the fixed navbar */
+.flash-container {
+    position: fixed;
+    top: 60px; /* Adjust based on navbar height */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1050; /* Ensure it's above other elements */
+    max-width: 90%;
+    text-align: center;
+}
