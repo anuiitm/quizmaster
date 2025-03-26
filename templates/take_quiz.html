@@ -1,0 +1,87 @@
+{% extends "user_base.html" %}
+
+{% block user_content %}
+<div class="container mt-5">
+    <div class="card shadow-lg p-3 mb-5 bg-white rounded" style="max-width: 600px; margin: auto;">
+        <div class="card-header bg-primary text-white text-center">
+            <h5 class="mb-0">Take Quiz: {{ quiz.chapter.name }}</h5>
+        </div>
+        
+        <div class="card-body">
+            <form id="quizForm" method="POST" action="{{ url_for('submit_quiz', quiz_id=quiz.id) }}">
+                <input type="hidden" id="quiz_id" value="{{ quiz.id }}">
+
+                <div id="question-container">
+                    {% for question in quiz.questions %}
+                    <div class="question-box {% if loop.index != 1 %}d-none{% endif %}" id="question-{{ loop.index }}">
+                        <p class="text-muted">Q. {{ loop.index }}/{{ quiz.questions|length }}</p>
+                        <p><strong>{{ question.question_statement }}</strong></p>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="q{{ question.id }}" value="1" id="q{{ question.id }}_1">
+                            <label class="form-check-label" for="q{{ question.id }}_1">{{ question.option1 }}</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="q{{ question.id }}" value="2" id="q{{ question.id }}_2">
+                            <label class="form-check-label" for="q{{ question.id }}_2">{{ question.option2 }}</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="q{{ question.id }}" value="3" id="q{{ question.id }}_3">
+                            <label class="form-check-label" for="q{{ question.id }}_3">{{ question.option3 }}</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="q{{ question.id }}" value="4" id="q{{ question.id }}_4">
+                            <label class="form-check-label" for="q{{ question.id }}_4">{{ question.option4 }}</label>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                
+                <!-- Navigation Buttons -->
+                <div class="text-center mt-3">
+                    <button type="button" class="btn btn-secondary" id="prev-btn" onclick="prevQuestion()" disabled>Previous</button>
+                    <button type="button" class="btn btn-primary" id="next-btn" onclick="nextQuestion()">Save & Next</button>
+                    <button type="submit" class="btn btn-success d-none" id="submit-btn">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- ✅ JavaScript for Navigation -->
+<script>
+    let currentQuestion = 1;
+    let totalQuestions = {{ quiz.questions|length }};
+
+    function showQuestion(index) {
+        document.querySelectorAll(".question-box").forEach((q, i) => {
+            q.classList.toggle("d-none", i !== index - 1);
+        });
+
+        document.getElementById("prev-btn").disabled = index === 1;
+        
+        if (index === totalQuestions) {
+            document.getElementById("next-btn").classList.add("d-none");
+            document.getElementById("submit-btn").classList.remove("d-none");
+        } else {
+            document.getElementById("next-btn").classList.remove("d-none");
+            document.getElementById("submit-btn").classList.add("d-none");
+        }
+    }
+
+    function nextQuestion() {
+        if (currentQuestion < totalQuestions) {
+            currentQuestion++;
+            showQuestion(currentQuestion);
+        }
+    }
+
+    function prevQuestion() {
+        if (currentQuestion > 1) {
+            currentQuestion--;
+            showQuestion(currentQuestion);
+        }
+    }
+</script>
+
+{% endblock %}
