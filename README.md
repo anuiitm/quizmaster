@@ -6,7 +6,7 @@ B.S. Data science and applications project for App development 1 (MAD 1).
 ### Project Demo [Click here for the demo](https://drive.google.com/file/d/13cIrX2NRxG6Fzrvivlf3Uppei2mR8Fo4/view?usp=drive_link)
 ## Instruction to use the app:
 1. Clone or download the repo as zip file.
-2. Open the project folder with VS code and open terminal by either ``` `Ctrl+` ``` or view -> open terminal
+2. Open the project folder with VS code and open terminal by either ``` Ctrl+` ``` or view -> open terminal
 3. Now, run this command `pip install -r requirements.txt` to install the required libraries
 4. Now run `python app.py` to run the app
 5. Open the local host link and ENJOY !!
